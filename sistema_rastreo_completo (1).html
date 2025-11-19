@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Sistema de rastreo de envíos FRUITY & VEGE - Del Campo a Tu Mesa">
+    <meta name="theme-color" content="#10b981">
+    <title>Rastreo de Envíos - FRUITY & VEGE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            color: #1f2937;
+            min-height: 100vh;
+            padding: 15px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        /* PANTALLA DE BÚSQUEDA */
+        .search-screen {
+            padding: 40px 30px;
+        }
+
+        .header-search {
+            text-align: center;
+            margin-bottom: 35px;
+            border-bottom: 3px solid #10b981;
+            padding-bottom: 25px;
+        }
+
+        .header-search .logo-container {
+            margin-bottom: 20px;
+        }
+
+        .header-search .logo-container img {
+            max-width: 200px;
+            height: auto;
+        }
+
+        .header-search h1 {
+            color: #166534;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header-search p {
+            color: #6b7280;
+            font-size: 15px;
+        }
+
+        .search-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 18px;
+            border: 2px solid #d1fae5;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .btn-search {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-search:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .ejemplos-box {
+            background: linear-gradient(to bottom, #f0fdf4, #dcfce7);
+            border: 2px solid #a7f3d0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+
+        .ejemplos-box h3 {
+            color: #065f46;
+            font-size: 14px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .parroquia-section {
+            margin-bottom: 15px;
+        }
+
+        .parroquia-title {
+            color: #047857;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .codigo-ejemplos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .codigo-tag {
+            background: white;
+            color: #059669;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 2px solid #a7f3d0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .codigo-tag:hover {
+            background: #10b981;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+        }
+
+        /* PANTALLA DE DETALLE */
+        .detail-screen, .timeline-screen {
+            display: none;
+        }
+
+        .header-tracking {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header-tracking h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        .tracking-content {
+            padding: 30px;
+        }
+
+        .entrega-estimada {
+            background: linear-gradient(to right, #d1fae5, #a7f3d0);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 25px;
+            border-left: 5px solid #10b981;
+        }
+
+        .entrega-estimada h3 {
+            color: #065f46;
+            font-size: 14px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .entrega-estimada .fecha {
+            color: #059669;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .info-card {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #6b7280;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: #1f2937;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .info-value-small {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .producto-card {
+            background: linear-gradient(to right, #f0fdf4, #dcfce7);
+            border: 2px solid #a7f3d0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .producto-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .producto-icon {
+            font-size: 48px;
+        }
+
+        .producto-info h3 {
+            color: #065f46;
+            font-size: 14px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .producto-nombre {
+            color: #1f2937;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .producto-detalles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .detalle-tag {
+            background: white;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 2px solid #d1fae5;
+        }
+
+        .ubicacion-actual {
+            background: #eff6ff;
+            border: 2px solid #93c5fd;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 25px;
+        }
+
+        .ubicacion-actual p {
+            color: #1e40af;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* TIMELINE */
+        .timeline-section h3 {
+            color: #166534;
+            font-size: 18px;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 35px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 9px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: #d1fae5;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -28px;
+            top: 5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #10b981;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #d1fae5;
+            z-index: 1;
+        }
+
+        .timeline-item.pending .timeline-dot {
+            background: #d1d5db;
+            box-shadow: 0 0 0 3px #e5e7eb;
+        }
+
+        .timeline-content {
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s;
+        }
+
+        .timeline-item:not(.pending) .timeline-content:hover {
+            border-color: #10b981;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+        }
+
+        .timeline-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .timeline-icon {
+            font-size: 22px;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 15px;
+        }
+
+        .timeline-item.pending .timeline-title {
+            color: #9ca3af;
+        }
+
+        .timeline-date {
+            font-size: 13px;
+            color: #059669;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .timeline-item.pending .timeline-date {
+            color: #9ca3af;
+        }
+
+        .timeline-location {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        /* BOTONES */
+        .btn-back, .btn-ver-timeline {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+
+        .btn-back {
+            background: #f3f4f6;
+            color: #374151;
+            border: 2px solid #e5e7eb;
+        }
+
+        .btn-back:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-ver-timeline {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .btn-ver-timeline:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .footer-info {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 2px solid #e5e7eb;
+            text-align: center;
+            color: #6b7280;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .footer-info p {
+            margin-bottom: 8px;
+        }
+
+        /* RESPONSIVE DESIGN - OPTIMIZADO PARA TODOS LOS DISPOSITIVOS */
+        
+        /* Tablets y dispositivos medianos (768px - 1024px) */
+        @media (max-width: 1024px) {
+            .container {
+                max-width: 100%;
+                margin: 0;
+            }
+        }
+
+        /* Tablets y móviles grandes (481px - 768px) */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .search-screen {
+                padding: 30px 20px;
+            }
+
+            .header-search .icon {
+                font-size: 50px;
+            }
+
+            .header-search h1 {
+                font-size: 24px;
+            }
+
+            .header-search p {
+                font-size: 14px;
+            }
+            
+            .tracking-content {
+                padding: 20px;
+            }
+
+            .header-tracking {
+                padding: 25px 20px;
+            }
+
+            .header-tracking h2 {
+                font-size: 22px;
+            }
+            
+            .codigo-ejemplos {
+                gap: 6px;
+            }
+            
+            .codigo-tag {
+                font-size: 11px;
+                padding: 5px 10px;
+            }
+
+            .producto-detalles {
+                gap: 8px;
+            }
+
+            .detalle-tag {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+
+            .producto-icon {
+                font-size: 40px;
+            }
+
+            .producto-nombre {
+                font-size: 18px;
+            }
+
+            .entrega-estimada .fecha {
+                font-size: 20px;
+            }
+
+            .timeline {
+                padding-left: 30px;
+            }
+
+            .timeline-dot {
+                left: -25px;
+                width: 18px;
+                height: 18px;
+            }
+
+            .timeline-icon {
+                font-size: 20px;
+            }
+
+            .timeline-content {
+                padding: 13px;
+            }
+        }
+
+        /* Móviles (320px - 480px) */
+        @media (max-width: 480px) {
+            body {
+                padding: 8px;
+            }
+
+            .container {
+                border-radius: 15px;
+            }
+
+            .search-screen {
+                padding: 25px 15px;
+            }
+
+            .header-search .icon {
+                font-size: 45px;
+                margin-bottom: 10px;
+            }
+
+            .header-search h1 {
+                font-size: 22px;
+                margin-bottom: 8px;
+            }
+
+            .header-search p {
+                font-size: 13px;
+            }
+
+            .form-group input {
+                font-size: 15px;
+                padding: 13px 15px;
+            }
+
+            .btn-search, .btn-back, .btn-ver-timeline {
+                font-size: 15px;
+                padding: 13px;
+            }
+
+            .ejemplos-box {
+                padding: 15px;
+            }
+
+            .ejemplos-box h3 {
+                font-size: 13px;
+                margin-bottom: 12px;
+            }
+
+            .parroquia-title {
+                font-size: 12px;
+                margin-bottom: 6px;
+            }
+
+            .codigo-tag {
+                font-size: 10px;
+                padding: 4px 8px;
+            }
+
+            .header-tracking {
+                padding: 20px 15px;
+            }
+
+            .header-tracking h2 {
+                font-size: 20px;
+            }
+
+            .status-badge {
+                font-size: 11px;
+                padding: 5px 12px;
+            }
+
+            .tracking-content {
+                padding: 15px;
+            }
+
+            .entrega-estimada {
+                padding: 15px;
+            }
+
+            .entrega-estimada h3 {
+                font-size: 13px;
+            }
+
+            .entrega-estimada .fecha {
+                font-size: 18px;
+            }
+
+            .info-card {
+                padding: 15px;
+            }
+
+            .info-row {
+                padding: 8px 0;
+            }
+
+            .info-label {
+                font-size: 12px;
+            }
+
+            .info-value {
+                font-size: 13px;
+            }
+
+            .producto-card {
+                padding: 15px;
+            }
+
+            .producto-header {
+                gap: 12px;
+                margin-bottom: 12px;
+            }
+
+            .producto-icon {
+                font-size: 38px;
+            }
+
+            .producto-info h3 {
+                font-size: 12px;
+            }
+
+            .producto-nombre {
+                font-size: 17px;
+            }
+
+            .producto-detalles {
+                gap: 6px;
+            }
+
+            .detalle-tag {
+                font-size: 11px;
+                padding: 6px 10px;
+            }
+
+            .ubicacion-actual {
+                padding: 12px;
+            }
+
+            .ubicacion-actual p {
+                font-size: 13px;
+            }
+
+            .timeline-section h3 {
+                font-size: 16px;
+                margin-bottom: 20px;
+            }
+
+            .timeline {
+                padding-left: 28px;
+            }
+
+            .timeline-dot {
+                left: -23px;
+                width: 16px;
+                height: 16px;
+            }
+
+            .timeline-content {
+                padding: 12px;
+            }
+
+            .timeline-icon {
+                font-size: 18px;
+            }
+
+            .timeline-title {
+                font-size: 14px;
+            }
+
+            .timeline-date {
+                font-size: 12px;
+            }
+
+            .timeline-location {
+                font-size: 12px;
+            }
+
+            .footer-info {
+                font-size: 11px;
+                padding-top: 20px;
+                margin-top: 25px;
+            }
+
+            .footer-info p {
+                margin-bottom: 6px;
+            }
+        }
+
+        /* Móviles pequeños (menos de 360px) */
+        @media (max-width: 360px) {
+            .header-search h1 {
+                font-size: 20px;
+            }
+
+            .producto-nombre {
+                font-size: 16px;
+            }
+
+            .entrega-estimada .fecha {
+                font-size: 16px;
+            }
+
+            .codigo-tag {
+                font-size: 9px;
+                padding: 3px 7px;
+            }
+        }
+
+        /* Asegurar que todo el contenido sea visible */
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        input, button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        /* Optimización táctil para móviles */
+        @media (hover: none) and (pointer: coarse) {
+            .btn-search, .btn-back, .btn-ver-timeline, .codigo-tag {
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- PANTALLA 1: BÚSQUEDA -->
+        <div class="search-screen" id="searchScreen">
+            <div class="header-search">
+                <div class="icon">🍎</div>
+                <h1>FRUITY & VEGE</h1>
+                <p>🌱 Del Campo a Tu Mesa - Santa Elena</p>
+            </div>
+
+            <div class="search-form">
+                <div class="form-group">
+                    <label for="trackingCode">Número de Rastreo</label>
+                    <input type="text" id="trackingCode" placeholder="Ejemplo: MG001234" autofocus>
+                </div>
+                <button class="btn-search" onclick="rastrear()">🔍 Rastrear</button>
+
+                <div class="ejemplos-box">
+                    <h3>📍 Prueba estos números por parroquia:</h3>
+                    
+                    <div class="parroquia-section">
+                        <div class="parroquia-title">📍 Manglaralto:</div>
+                        <div class="codigo-ejemplos">
+                            <span class="codigo-tag" onclick="usarCodigo('LIM-MAN-001')">LIM-MAN-001</span>
+                            <span class="codigo-tag" onclick="usarCodigo('SAN-MAN-002')">SAN-MAN-002</span>
+                            <span class="codigo-tag" onclick="usarCodigo('MAN-003')">MAN-003</span>
+                            <span class="codigo-tag" onclick="usarCodigo('MEL-MAN-004')">MEL-MAN-004</span>
+                        </div>
+                    </div>
+
+                    <div class="parroquia-section">
+                        <div class="parroquia-title">📍 Colonche:</div>
+                        <div class="codigo-ejemplos">
+                            <span class="codigo-tag" onclick="usarCodigo('MAI-COL-01')">MAI-COL-01</span>
+                            <span class="codigo-tag" onclick="usarCodigo('CAC-COL-002')">CAC-COL-002</span>
+                            <span class="codigo-tag" onclick="usarCodigo('YUC-COL-003')">YUC-COL-003</span>
+                            <span class="codigo-tag" onclick="usarCodigo('MAR-COL-006')">MAR-COL-006</span>
+                        </div>
+                    </div>
+
+                    <div class="parroquia-section">
+                        <div class="parroquia-title">📍 Chanduy:</div>
+                        <div class="codigo-ejemplos">
+                            <span class="codigo-tag" onclick="usarCodigo('AGU-CHA-001')">AGU-CHA-001</span>
+                            <span class="codigo-tag" onclick="usarCodigo('MAN-CHA-003')">MAN-CHA-003</span>
+                            <span class="codigo-tag" onclick="usarCodigo('PEC-CHA-006')">PEC-CHA-006</span>
+                            <span class="codigo-tag" onclick="usarCodigo('TOM-CHA-005')">TOM-CHA-005</span>
+                        </div>
+                    </div>
+
+                    <div class="parroquia-section">
+                        <div class="parroquia-title">📍 Simón Bolívar:</div>
+                        <div class="codigo-ejemplos">
+                            <span class="codigo-tag" onclick="usarCodigo('BAD-SIM-001')">BAD-SIM-001</span>
+                            <span class="codigo-tag" onclick="usarCodigo('GUA-SIM-002')">GUA-SIM-002</span>
+                            <span class="codigo-tag" onclick="usarCodigo('CEB-SIM-005')">CEB-SIM-005</span>
+                            <span class="codigo-tag" onclick="usarCodigo('AJI-SIM-006')">AJI-SIM-006</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANTALLA 2: DETALLE DEL PEDIDO -->
+        <div class="detail-screen" id="detailScreen">
+            <div class="header-tracking">
+                <h2>En Tránsito</h2>
+                <div class="status-badge">EN_TRANSITO</div>
+                <p style="margin-top: 12px; font-size: 15px;">#<span id="codigoPedido"></span></p>
+            </div>
+
+            <div class="tracking-content">
+                <div class="entrega-estimada">
+                    <h3>Entrega estimada</h3>
+                    <div class="fecha">9 de noviembre de 2025</div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-row">
+                        <span class="info-label">📍 Origen</span>
+                        <span class="info-value" id="origenCiudad">Manglaralto, Santa Elena</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label"></span>
+                        <span class="info-value info-value-small" id="origenParroquia">Parroquia Manglaralto</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🏠 Destino</span>
+                        <span class="info-value">Guayaquil, Guayas</span>
+                    </div>
+                </div>
+
+                <div class="producto-card">
+                    <div class="producto-header">
+                        <div class="producto-icon" id="productoIcono">🍉</div>
+                        <div class="producto-info">
+                            <h3>FRUITY & VEGE - Producto Fresco</h3>
+                            <div class="producto-nombre" id="productoNombre">Sandías frescas</div>
+                        </div>
+                    </div>
+                    <div class="producto-detalles">
+                        <div class="detalle-tag">
+                            <span>🏡</span>
+                            <span id="fincaNombre">Finca San José</span>
+                        </div>
+                        <div class="detalle-tag">
+                            <span>📍</span>
+                            <span id="parroquiaInfo">Parroquia Manglaralto</span>
+                        </div>
+                        <div class="detalle-tag">
+                            <span>📦</span>
+                            <span id="pesoInfo">8 kg</span>
+                        </div>
+                        <div class="detalle-tag">
+                            <span>🚚</span>
+                            <span>FRUITY & VEGE Express</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ubicacion-actual">
+                    <p>📍 Ubicación actual: <strong>Ruta hacia Guayaquil</strong></p>
+                </div>
+
+                <button class="btn-ver-timeline" onclick="mostrarTimeline()">📋 Ver Historial de Envío</button>
+                <button class="btn-back" onclick="volverInicio()">← Realizar Nueva Búsqueda</button>
+
+                <div class="footer-info">
+                    <p>⏰ <strong>Última actualización:</strong> <span id="fechaActual1"></span></p>
+                    <p>🍎 <strong>FRUITY & VEGE</strong> - Del Campo a Tu Mesa</p>
+                    <p>📞 <strong>Contacto:</strong> +593 98 765 4321 | WhatsApp disponible</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANTALLA 3: HISTORIAL COMPLETO -->
+        <div class="timeline-screen" id="timelineScreen">
+            <div class="header-tracking">
+                <h2>Historial de Envío</h2>
+                <p style="margin-top: 8px;">Pedido: <span id="codigoPedido2"></span></p>
+            </div>
+
+            <div class="tracking-content">
+                <div class="timeline-section">
+                    <h3>📋 Movimientos del Paquete</h3>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-header">
+                                    <span class="timeline-icon">🌱</span>
+                                    <div class="timeline-title">Pedido recibido</div>
+                                </div>
+                                <div class="timeline-date">2025-11-08 05:00</div>
+                                <div class="timeline-location" id="timelineFinca">Finca San José, Manglaralto</div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-header">
+                                    <span class="timeline-icon">🌾</span>
+                                    <div class="timeline-title">Cosechado de finca</div>
+                                </div>
+                                <div class="timeline-date">2025-11-08 07:00</div>
+                                <div class="timeline-location" id="timelineParroquia">Manglaralto</div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-header">
+                                    <span class="timeline-icon">📦</span>
+                                    <div class="timeline-title">Empacado y listo</div>
+                                </div>
+                                <div class="timeline-date">2025-11-08 09:30</div>
+                                <div class="timeline-location" id="timelineAcopio">Centro de acopio Manglaralto</div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-header">
+                                    <span class="timeline-icon">🚚</span>
+                                    <div class="timeline-title">En tránsito</div>
+                                </div>
+                                <div class="timeline-date">2025-11-09 06:00</div>
+                                <div class="timeline-location" id="timelineRuta">Ruta Manglaralto-Guayaquil</div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-header">
+                                    <span class="timeline-icon">🚛</span>
+                                    <div class="timeline-title">En reparto</div>
+                                </div>
+                                <div class="timeline-date">2025-11-10</div>
+                                <div class="timeline-location">Guayaquil</div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item pending">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-header">
+                                    <span class="timeline-icon">✅</span>
+                                    <div class="timeline-title">Entregado</div>
+                                </div>
+                                <div class="timeline-date">2025-11-10</div>
+                                <div class="timeline-location">Dirección destino</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-back" onclick="volverDetalle()">← Volver al Detalle</button>
+                <button class="btn-back" onclick="volverInicio()">🏠 Nueva Búsqueda</button>
+
+                <div class="footer-info">
+                    <p>⏰ <strong>Última actualización:</strong> <span id="fechaActual2"></span></p>
+                    <p>🍎 <strong>FRUITY & VEGE</strong> - Del Campo a Tu Mesa</p>
+                    <p>📞 <strong>Contacto:</strong> +593 98 765 4321 | WhatsApp disponible</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // BASE DE DATOS DE PRODUCTOS POR CÓDIGO
+        const productos = {
+            // MANGLARALTO
+            'LIM-MAN-001': {
+                nombre: 'Limones frescos',
+                icono: '🍋',
+                finca: 'Finca El Limonar',
+                parroquia: 'Parroquia Manglaralto',
+                ciudad: 'Manglaralto, Santa Elena',
+                peso: '5 kg'
+            },
+            'SAN-MAN-002': {
+                nombre: 'Sandías frescas',
+                icono: '🍉',
+                finca: 'Finca San José',
+                parroquia: 'Parroquia Manglaralto',
+                ciudad: 'Manglaralto, Santa Elena',
+                peso: '8 kg'
+            },
+            'MAN-003': {
+                nombre: 'Mangos orgánicos',
+                icono: '🥭',
+                finca: 'Finca Mango Dulce',
+                parroquia: 'Parroquia Manglaralto',
+                ciudad: 'Manglaralto, Santa Elena',
+                peso: '6 kg'
+            },
+            'MEL-MAN-004': {
+                nombre: 'Melones frescos',
+                icono: '🍈',
+                finca: 'Finca El Vergel',
+                parroquia: 'Parroquia Manglaralto',
+                ciudad: 'Manglaralto, Santa Elena',
+                peso: '7 kg'
+            },
+
+            // COLONCHE
+            'MAI-COL-01': {
+                nombre: 'Maíz tierno',
+                icono: '🌽',
+                finca: 'Finca La Milpa',
+                parroquia: 'Parroquia Colonche',
+                ciudad: 'Colonche, Santa Elena',
+                peso: '10 kg'
+            },
+            'CAC-COL-002': {
+                nombre: 'Cacao orgánico',
+                icono: '🍫',
+                finca: 'Finca Cacao Real',
+                parroquia: 'Parroquia Colonche',
+                ciudad: 'Colonche, Santa Elena',
+                peso: '4 kg'
+            },
+            'YUC-COL-003': {
+                nombre: 'Yuca fresca',
+                icono: '🥔',
+                finca: 'Finca Raíces',
+                parroquia: 'Parroquia Colonche',
+                ciudad: 'Colonche, Santa Elena',
+                peso: '12 kg'
+            },
+            'MAR-COL-006': {
+                nombre: 'Maracuyá fresca',
+                icono: '🍈',
+                finca: 'Finca Pasión Tropical',
+                parroquia: 'Parroquia Colonche',
+                ciudad: 'Colonche, Santa Elena',
+                peso: '5 kg'
+            },
+
+            // CHANDUY
+            'AGU-CHA-001': {
+                nombre: 'Aguacates orgánicos',
+                icono: '🥑',
+                finca: 'Finca Verde Oro',
+                parroquia: 'Parroquia Chanduy',
+                ciudad: 'Chanduy, Santa Elena',
+                peso: '6 kg'
+            },
+            'MAN-CHA-003': {
+                nombre: 'Mandarinas frescas',
+                icono: '🍊',
+                finca: 'Finca Cítricos del Sol',
+                parroquia: 'Parroquia Chanduy',
+                ciudad: 'Chanduy, Santa Elena',
+                peso: '7 kg'
+            },
+            'PEC-CHA-006': {
+                nombre: 'Pechiche seco',
+                icono: '🌳',
+                finca: 'Finca Tradiciones',
+                parroquia: 'Parroquia Chanduy',
+                ciudad: 'Chanduy, Santa Elena',
+                peso: '3 kg'
+            },
+            'TOM-CHA-005': {
+                nombre: 'Tomates frescos',
+                icono: '🍅',
+                finca: 'Finca Huerta Roja',
+                parroquia: 'Parroquia Chanduy',
+                ciudad: 'Chanduy, Santa Elena',
+                peso: '9 kg'
+            },
+
+            // SIMÓN BOLÍVAR
+            'BAD-SIM-001': {
+                nombre: 'Badea fresca',
+                icono: '🥒',
+                finca: 'Finca El Bosque',
+                parroquia: 'Parroquia Simón Bolívar',
+                ciudad: 'Simón Bolívar, Santa Elena',
+                peso: '11 kg'
+            },
+            'GUA-SIM-002': {
+                nombre: 'Guanábanas',
+                icono: '💚',
+                finca: 'Finca Tropical',
+                parroquia: 'Parroquia Simón Bolívar',
+                ciudad: 'Simón Bolívar, Santa Elena',
+                peso: '8 kg'
+            },
+            'CEB-SIM-005': {
+                nombre: 'Cebollas coloradas',
+                icono: '🧅',
+                finca: 'Finca La Cosecha',
+                parroquia: 'Parroquia Simón Bolívar',
+                ciudad: 'Simón Bolívar, Santa Elena',
+                peso: '10 kg'
+            },
+            'AJI-SIM-006': {
+                nombre: 'Ají picante',
+                icono: '🌶️',
+                finca: 'Finca Picante',
+                parroquia: 'Parroquia Simón Bolívar',
+                ciudad: 'Simón Bolívar, Santa Elena',
+                peso: '2 kg'
+            }
+        };
+
+        // FUNCIÓN PARA ACTUALIZAR FECHA Y HORA
+        function actualizarFechaHora() {
+            const ahora = new Date();
+            const dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+            const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+            
+            const diaSemana = dias[ahora.getDay()];
+            const dia = ahora.getDate().toString().padStart(2, '0');
+            const mes = meses[ahora.getMonth()];
+            const año = ahora.getFullYear();
+            
+            let horas = ahora.getHours();
+            const minutos = ahora.getMinutes().toString().padStart(2, '0');
+            const ampm = horas >= 12 ? 'PM' : 'AM';
+            horas = horas % 12 || 12;
+            
+            const fechaTexto = `${diaSemana} ${dia} de ${mes} de ${año} a las ${horas}:${minutos} ${ampm}`;
+            
+            const elem1 = document.getElementById('fechaActual1');
+            const elem2 = document.getElementById('fechaActual2');
+            if (elem1) elem1.textContent = fechaTexto;
+            if (elem2) elem2.textContent = fechaTexto;
+        }
+
+        // FUNCIÓN PARA USAR UN CÓDIGO DE EJEMPLO
+        function usarCodigo(codigo) {
+            document.getElementById('trackingCode').value = codigo;
+            rastrear();
+        }
+
+        // FUNCIÓN PRINCIPAL DE RASTREO
+        function rastrear() {
+            const codigo = document.getElementById('trackingCode').value.trim().toUpperCase();
+            
+            if (codigo === '') {
+                alert('⚠️ Por favor, ingresa un código de seguimiento válido.');
+                return;
+            }
+
+            const producto = productos[codigo];
+            
+            if (!producto) {
+                alert('❌ Código no encontrado. Por favor verifica el número de rastreo.');
+                return;
+            }
+
+            // ACTUALIZAR INFORMACIÓN EN PANTALLA DE DETALLE
+            document.getElementById('codigoPedido').textContent = codigo;
+            document.getElementById('codigoPedido2').textContent = codigo;
+            
+            document.getElementById('productoIcono').textContent = producto.icono;
+            document.getElementById('productoNombre').textContent = producto.nombre;
+            document.getElementById('fincaNombre').textContent = producto.finca;
+            document.getElementById('parroquiaInfo').textContent = producto.parroquia;
+            document.getElementById('pesoInfo').textContent = producto.peso;
+            document.getElementById('origenCiudad').textContent = producto.ciudad;
+            document.getElementById('origenParroquia').textContent = producto.parroquia;
+
+            // ACTUALIZAR TIMELINE
+            document.getElementById('timelineFinca').textContent = producto.finca + ', ' + producto.ciudad.split(',')[0];
+            document.getElementById('timelineParroquia').textContent = producto.ciudad.split(',')[0];
+            document.getElementById('timelineAcopio').textContent = 'Centro de acopio ' + producto.ciudad.split(',')[0];
+            document.getElementById('timelineRuta').textContent = 'Ruta ' + producto.ciudad.split(',')[0] + '-Guayaquil';
+
+            actualizarFechaHora();
+            
+            // MOSTRAR PANTALLA DE DETALLE
+            document.getElementById('searchScreen').style.display = 'none';
+            document.getElementById('detailScreen').style.display = 'block';
+            document.getElementById('timelineScreen').style.display = 'none';
+            window.scrollTo(0, 0);
+        }
+
+        // FUNCIÓN PARA MOSTRAR TIMELINE COMPLETO
+        function mostrarTimeline() {
+            document.getElementById('searchScreen').style.display = 'none';
+            document.getElementById('detailScreen').style.display = 'none';
+            document.getElementById('timelineScreen').style.display = 'block';
+            actualizarFechaHora();
+            window.scrollTo(0, 0);
+        }
+
+        // FUNCIÓN PARA VOLVER AL DETALLE
+        function volverDetalle() {
+            document.getElementById('searchScreen').style.display = 'none';
+            document.getElementById('detailScreen').style.display = 'block';
+            document.getElementById('timelineScreen').style.display = 'none';
+            window.scrollTo(0, 0);
+        }
+
+        // FUNCIÓN PARA VOLVER AL INICIO
+        function volverInicio() {
+            document.getElementById('searchScreen').style.display = 'block';
+            document.getElementById('detailScreen').style.display = 'none';
+            document.getElementById('timelineScreen').style.display = 'none';
+            document.getElementById('trackingCode').value = '';
+            document.getElementById('trackingCode').focus();
+            window.scrollTo(0, 0);
+        }
+
+        // PERMITIR BUSCAR CON ENTER
+        document.getElementById('trackingCode').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                rastrear();
+            }
+        });
+
+        // ACTUALIZAR HORA CADA MINUTO
+        setInterval(function() {
+            const detailVisible = document.getElementById('detailScreen').style.display === 'block';
+            const timelineVisible = document.getElementById('timelineScreen').style.display === 'block';
+            
+            if (detailVisible || timelineVisible) {
+                actualizarFechaHora();
+            }
+        }, 60000);
+    </script>
+</body>
+</html>
